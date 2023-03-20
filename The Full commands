@@ -1,0 +1,55 @@
+Configure Layer 3 Switching and Inter-VLAN Routing
+
+Part 1: Configure Layer 3 Switching
+enable
+config t    # configure a routed port
+int g0/2 
+no switchport 
+ip address 209.165.200.225 255.255.255.252
+
+do a ping test to the cloud 
+enable 
+config t
+vlan 10 
+name Staff 
+
+vlan 20 
+name Student
+
+vlan 30 
+name Faculty 
+
+add SVI on layer 3 on all vlans.......
+ipv6 unicast-routing
+"ip routing" command to enable routing in global configuration mode
+
+int vlan 10 
+ip address 192.168.10.254 255.255.255.0
+ipv6 address 2001:db8:acad:10::1/64
+no shut 
+
+int vlan 20 
+ip address 192.168.20.254 255.255.255.0 
+ipv6 address 2001:db8:acad:20::1/64
+no shut
+
+int vlan 30 
+ip address 192.168.30.254 255.255.255.0
+ipv6 address 2001:db8:acad:30::1/64
+no shut 
+
+int vlan 99 
+ip address 192.168.99.254 255.255.255.0
+no shut 
+
+Part 2: Configure Inter-VLAN Routing
+Configure Trunking on a layer 3 switch will differ slightly 
+int g0/1
+switchport mode trunk 
+switchport trunk native vlan 99
+switchport trunk encapsulation dot1q 
+
+configure the S1 with a staic trunk ass well 
+int g0/1 
+switchport mode trunk 
+switchport trunk native vlan 99 
